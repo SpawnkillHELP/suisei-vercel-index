@@ -117,3 +117,8 @@ pre[class*='language-'] {
 .token.italic {
   font-style: italic;
 }
+
+.bg-white shadow rounded {
+  font-family: monospace;
+}
+
