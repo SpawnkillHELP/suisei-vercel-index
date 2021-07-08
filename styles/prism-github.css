@@ -118,7 +118,7 @@ pre[class*='language-'] {
   font-style: italic;
 }
 
-.bg-white shadow rounded {
+.bg-white.shadow.rounded {
   font-family: monospace;
 }
 
