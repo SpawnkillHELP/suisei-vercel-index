@@ -1,7 +1,7 @@
 {
-  "clientId": "d87bcc39-1750-4ca0-ad54-f8d0efbb2735",
+  "clientId": "4ff48e4b-86cf-4731-a00d-3c23730c138a",
   "redirectUri": "http://localhost",
-  "base": "/Public",
+  "base": "/星街すいせい/YouTube",
   "authApi": "https://login.microsoftonline.com/common/oauth2/v2.0/token",
   "driveApi": "https://graph.microsoft.com/v1.0/me/drive"
 }
