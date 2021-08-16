@@ -6,6 +6,7 @@ class MyDocument extends Document {
       <Html>
         <Head>
           <meta name="description" content="Suisei YouTube Archive. Hosted on Vercel." />
+          <meta itemprop="image" content="https://img.suisei.cc/icon.png"/>
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <body>
