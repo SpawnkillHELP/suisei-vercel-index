@@ -22,9 +22,6 @@ const MarkdownPreview: FunctionComponent<{ file: any; standalone?: boolean }> = 
     revalidateOnFocus: false,
     revalidateOnMount:false,
     revalidateOnReconnect: false,
-    refreshWhenOffline: false,
-    refreshWhenHidden: false,
-    refreshInterval: 0
   })
   useEffect(() => {
     if (typeof window !== 'undefined') {
