@@ -86,7 +86,7 @@ const FileListItem: FunctionComponent<{
         </div>
       </div>
       <div className="hidden md:block font-mono text-sm col-span-2 text-gray-700 flex-shrink-0">
-        {new Date(c.lastModifiedDateTime).toLocaleString('en-US', {
+        {new Date(c.lastModifiedDateTime).toLocaleString('zh-CN', {
           year: 'numeric',
           month: '2-digit',
           day: '2-digit',
