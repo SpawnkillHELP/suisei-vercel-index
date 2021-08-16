@@ -1,6 +1,6 @@
 import { useEffect, FunctionComponent } from 'react'
 import axios from 'axios'
-import useSWR from 'swr'
+/*import useSWR from 'swr'*/
 import Prism from 'prismjs'
 import ReactMarkdown from 'react-markdown'
 import gfm from 'remark-gfm'
@@ -18,11 +18,7 @@ import DownloadBtn from '../DownloadBtn'
 const fetcher = (url: string) => axios.get(url).then(res => res.data)
 
 const MarkdownPreview: FunctionComponent<{ file: any; standalone?: boolean }> = ({ file, standalone = true }) => {
-  const { data, error } = useSWR(file['@microsoft.graph.downloadUrl'], fetcher, {
-    refreshWhenOffline: false,
-    refreshWhenHidden: false,
-    refreshInterval: 0
-  })
+  /*const { data, error } = useSWR(file['@microsoft.graph.downloadUrl'], fetcher)*/
   useEffect(() => {
     if (typeof window !== 'undefined') {
       Prism.highlightAll()
