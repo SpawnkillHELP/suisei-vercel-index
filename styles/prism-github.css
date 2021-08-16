@@ -118,7 +118,13 @@ pre[class*='language-'] {
   font-style: italic;
 }
 
+/* Custom */
+
 .bg-white.shadow.rounded {
   font-family: monospace;
   font-size: 1rem;
+}
+
+.badge{
+  display:inline;
 }

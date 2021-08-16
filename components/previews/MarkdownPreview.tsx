@@ -1,5 +1,4 @@
 import { useEffect, FunctionComponent } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import axios from 'axios'
 import useSWR from 'swr'
 import Prism from 'prismjs'
