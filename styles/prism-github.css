@@ -120,7 +120,7 @@ pre[class*='language-'] {
 
 /* Custom */
 
-.p-3 {
+.truncate {
   font-family: monospace;
   font-size: 1rem;
 }
