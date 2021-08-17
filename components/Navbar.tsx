@@ -8,7 +8,7 @@ const Navbar = () => {
       <div className="max-w-4xl w-full mx-auto flex items-center justify-between">
         <h1 className="font-bold text-xl">{siteConfig.title}</h1>
         <a href="https://www.youtube.com/channel/UC5CwaMl1eIgY8h02uZw7u8A" target="_blank" rel="noopener noreferrer">
-          <FontAwesomeIcon icon={['fas', 'fixmeteor']} size="lg" />
+          <FontAwesomeIcon icon={['fas', 'meteor']} size="lg" />
         </a>
       </div>
     </div>
