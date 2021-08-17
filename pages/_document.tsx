@@ -10,8 +10,8 @@ class MyDocument extends Document {
           <meta property="og:image" content="https://img.suisei.cc/icon.png" />
           <meta name="description" content="Suisei YouTube Archive. Hosted on Vercel." />
           <meta name="twitter:card" content="summary" />
-          <meta name="twitter:description" content="Suisei YouTube Archive. Hosted on Vercel. This is a personal project, DO NOT DISTRIBUTE." />
-          <meta name="twitter:title" content="Suisei Archive" />
+          <meta name="twitter:description" content="The archiving site of Hoshimachi Suisei's YouTube stream and videos. Hosted on Vercel. This is a personal project, DO NOT DISTRIBUTE." />
+          <meta name="twitter:title" content="Suisei Archive | Treasure every moment of our dear comet." />
           <meta name="twitter:image" content="https://img.suisei.cc/icon.png" />
           <link rel="apple-touch-icon" href="/android-chrome-192x192.png" sizes="192x192" />
           <link rel="manifest" href="/static/manifest.json" />
