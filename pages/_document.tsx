@@ -16,7 +16,6 @@ class MyDocument extends Document {
           <link rel="apple-touch-icon" href="/android-chrome-192x192.png" sizes="192x192" />
           <link rel="manifest" href="/static/manifest.json" />
           <link rel="icon" href="/favicon.ico" />
-          <!-- Global site tag (gtag.js) - Google Analytics -->
           <script async src="https://www.googletagmanager.com/gtag/js?id=G-4Y425T5MB3"></script>
           <script>
             window.dataLayer = window.dataLayer || [];
