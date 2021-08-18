@@ -1,6 +1,6 @@
 <div align="center">
   <image src="https://raw.githubusercontent.com/aozaki-kuro/archive-guide/main/assets/comet.png" alt="comet" width="150px" />
-  <h4>Yet another-another OneDrive index, powered by Vercel and Next.js</h4>
+  <h4>Suisei Archive index, powered by Vercel and Next.js</h4>
   <em>Treasure every moment of our dear comet.</em>
 </div>
 
