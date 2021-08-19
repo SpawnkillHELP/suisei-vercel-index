@@ -9,6 +9,7 @@ class MyDocument extends Document {
           <meta property="og:title" content="Suisei Archive | Treasure every moment of her" />
           <meta property="og:image" content="https://img.suisei.cc/icon.png" />
           <meta name="description" content="he archiving site of Hoshimachi Suisei's YouTube stream and videos. This is a personal project, DO NOT DISTRIBUTE." />
+          <meta name="robots" content="noindex" />
           <meta name="twitter:card" content="summary" />
           <meta name="twitter:description" content="The archiving site of Hoshimachi Suisei's YouTube stream and videos. This is a personal project, DO NOT DISTRIBUTE." />
           <meta name="twitter:title" content="Suisei Archive | Treasure every moment of her" />
