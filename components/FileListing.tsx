@@ -2,6 +2,7 @@ import axios from 'axios'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import toast, { Toaster } from 'react-hot-toast'
 import emojiRegex from 'emoji-regex'
+import { useClipboard } from 'use-clipboard-copy'
 
 import { ParsedUrlQuery } from 'querystring'
 import { FunctionComponent, useState } from 'react'
@@ -86,7 +87,7 @@ const FileListItem: FunctionComponent<{
         </div>
       </div>
       <div className="hidden md:block font-mono text-sm col-span-2 text-gray-700 flex-shrink-0">
-        {new Date(c.lastModifiedDateTime).toLocaleString('zh-CN', {
+        {new Date(c.lastModifiedDateTime).toLocaleString('en-US', {
           year: 'numeric',
           month: '2-digit',
           day: '2-digit',
@@ -105,6 +106,7 @@ const FileListing: FunctionComponent<{ query?: ParsedUrlQuery }> = ({ query }) =
   const [activeImageIdx, setActiveImageIdx] = useState(0)
 
   const router = useRouter()
+  const clipboard = useClipboard()
 
   const path = queryToPath(query)
 
@@ -204,9 +206,7 @@ const FileListing: FunctionComponent<{ query?: ParsedUrlQuery }> = ({ query }) =
                   key: 'copy',
                   render: <FontAwesomeIcon icon="copy" />,
                   onClick: i => {
-                    navigator.clipboard.writeText(
-                      i.alt ? `${getBaseUrl()}/api?path=${encodeURIComponent(path + '/' + i.alt)}&raw=true` : ''
-                    )
+                    clipboard.copy(i.alt ? `${getBaseUrl()}/api?path=${path + '/' + i.alt}&raw=true` : '')
                     toast.success('Copied image permanent link to clipboard.')
                   },
                 },
@@ -225,7 +225,6 @@ const FileListing: FunctionComponent<{ query?: ParsedUrlQuery }> = ({ query }) =
                 setActiveImageIdx(imageIndexDict[c.id])
                 setImageViewerVisibility(true)
               } else {
-                console.log(path)
                 router.push(`${path === '/' ? '' : path}/${encodeURIComponent(c.name)}`)
               }
             }}
