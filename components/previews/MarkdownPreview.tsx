@@ -17,7 +17,9 @@ import DownloadBtn from '../DownloadBtn'
 const fetcher = (url: string) => axios.get(url).then(res => res.data)
 
 const MarkdownPreview: FunctionComponent<{ file: any; standalone?: boolean }> = ({ file, standalone = true }) => {
-  const { data, error } = useSWR(file['@microsoft.graph.downloadUrl'], fetcher)
+  const { data, error } = useSWR(file['@microsoft.graph.downloadUrl'], fetcher, {
+    revalidateOnFocus: false,
+  })
 
   useEffect(() => {
     if (typeof window !== 'undefined') {

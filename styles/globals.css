@@ -15,3 +15,10 @@
 .markdown-body ol {
   @apply list-decimal;
 }
+
+/* Custom */
+
+.truncate {
+  font-family: monospace;
+  font-size: 1rem;
+}
