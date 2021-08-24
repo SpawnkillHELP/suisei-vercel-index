@@ -109,10 +109,7 @@ const FileListing: FunctionComponent<{ query?: ParsedUrlQuery }> = ({ query }) =
 
   const path = queryToPath(query)
 
-  const { data, error } = useSWR(`/api?path=${path}`, fetcher, {
-    revalidateOnFocus: false,
-    refreshWhenHidden: false,
-  })
+  const { data, error } = useSWR(`/api?path=${path}`, fetcher)
 
   if (error) {
     return (
