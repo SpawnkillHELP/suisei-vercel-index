@@ -17,20 +17,7 @@ class MyDocument extends Document {
           <link rel="apple-touch-icon" href="/android-chrome-192x192.png" sizes="192x192" />
           <link rel="manifest" href="/static/manifest.json" />
           <link rel="icon" href="/favicon.ico" />
-          <script
-            async
-            src="https://www.googletagmanager.com/gtag/js?id=G-4Y425T5MB3"
-          />
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', 'G-4Y425T5MB3', { page_path: window.location.pathname });
-              `,
-            }}
-          />
+          <script async src="https://analytics.suisei.cc/sb.js"></script>
         </Head>
         <body>
           <Main />
