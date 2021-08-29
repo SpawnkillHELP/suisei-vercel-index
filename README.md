@@ -10,6 +10,6 @@
 
 This repo forked from `spencerwoo/onedrive-vercel-index` .
 
-Deeply modified for personal use.
+Deeply modified for personal usage.
 
 DO NOT FORK THIS REPO.
