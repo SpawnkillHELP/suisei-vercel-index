@@ -217,60 +217,6 @@ const FileListing: FunctionComponent<{ query?: ParsedUrlQuery }> = ({ query }) =
           />
         )}
 
-        {children.map((c: any) => (
-          <div className="grid grid-cols-12 hover:bg-gray-100 dark:hover:bg-gray-850" key={c.id}>
-            <div
-              className="col-span-11"
-              onClick={e => {
-                e.preventDefault()
-
-                if (!c.folder && fileIsImage(c.name)) {
-                  setActiveImageIdx(imageIndexDict[c.id])
-                  setImageViewerVisibility(true)
-                } else {
-                  router.push(`${path === '/' ? '' : path}/${encodeURIComponent(c.name)}`)
-                }
-              }}
-            >
-              <FileListItem fileContent={c} />
-            </div>
-            {c.folder ? (
-              <div className="hidden md:flex p-1 text-gray-700 dark:text-gray-400">
-                <span
-                  title="Copy folder permalink"
-                  className="cursor-pointer p-2 rounded hover:bg-gray-300 dark:hover:bg-gray-600"
-                  onClick={() => {
-                    clipboard.copy(`${getBaseUrl()}${path === '/' ? '' : path}/${encodeURIComponent(c.name)}`)
-                    toast.success('Copied folder permalink.')
-                  }}
-                >
-                  <FontAwesomeIcon icon={['far', 'copy']} />
-                </span>
-              </div>
-            ) : (
-              <div className="hidden md:flex p-1 text-gray-700 dark:text-gray-400">
-                <span
-                  title="Copy raw file permalink"
-                  className="cursor-pointer p-2 rounded hover:bg-gray-300 dark:hover:bg-gray-600"
-                  onClick={() => {
-                    clipboard.copy(`${getBaseUrl()}/api?path=${path === '/' ? '' : path}/${c.name}&raw=true`)
-                    toast.success('Copied raw file permalink.')
-                  }}
-                >
-                  <FontAwesomeIcon icon={['far', 'copy']} />
-                </span>
-                <a
-                  title="Download file"
-                  className="cursor-pointer p-2 rounded hover:bg-gray-300 dark:hover:bg-gray-600"
-                  href={c['@microsoft.graph.downloadUrl']}
-                >
-                  <FontAwesomeIcon icon={['far', 'arrow-alt-circle-down']} />
-                </a>
-              </div>
-            )}
-          </div>
-        ))}
-
         {renderReadme && (
           <div className="border-t dark:border-gray-700">
             <MarkdownPreview file={readmeFile} standalone={false} />
