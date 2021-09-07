@@ -1,5 +1,4 @@
 import Document, { Head, Html, Main, NextScript } from 'next/document'
-import siteConfig from '../config/site.json'
 
 class MyDocument extends Document {
   render() {
@@ -31,14 +30,6 @@ class MyDocument extends Document {
                 gtag('config', 'G-4Y425T5MB3', { page_path: window.location.pathname });
               `,
             }}
-          />
-          <link rel="preconnect" href="https://fonts.googleapis.com" />
-          <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
-          <link
-            href={`https://fonts.googleapis.com/css2?family=${
-              siteConfig.googleFont
-              }:wght@${siteConfig.googleFontWeights.join(';')}&display=swap`}
-            rel="stylesheet"
           />
         </Head>
         <body>

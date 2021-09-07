@@ -81,16 +81,6 @@ const FileListItem: FunctionComponent<{
           {renderEmoji ? c.name.replace(emojiIcon ? emojiIcon[0] : '', '').trim() : c.name}
         </div>
       </div>
-      <div className="md:block dark:text-gray-500 flex-shrink-0 hidden col-span-3 font-mono text-sm text-gray-700">
-        {new Date(c.lastModifiedDateTime).toLocaleString('en-US', {
-          year: 'numeric',
-          month: '2-digit',
-          day: '2-digit',
-          hour: '2-digit',
-          minute: '2-digit',
-          hour12: false,
-        })}
-      </div>
       <div className="md:block dark:text-gray-500 flex-shrink-0 hidden col-span-1 font-mono text-sm text-gray-700 truncate">
         {humanFileSize(c.size)}
       </div>
