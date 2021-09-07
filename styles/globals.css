@@ -28,10 +28,9 @@
   @apply list-decimal;
 }
 
-{
-  "clientId": "4ff48e4b-86cf-4731-a00d-3c23730c138a",
-  "redirectUri": "http://localhost",
-  "base": "/星街すいせい/YouTube",
-  "authApi": "https://login.microsoftonline.com/common/oauth2/v2.0/token",
-  "driveApi": "https://graph.microsoft.com/v1.0/me/drive"
+/* Custom */
+
+.truncate {
+  font-family: monospace;
+  font-size: 1rem;
 }
