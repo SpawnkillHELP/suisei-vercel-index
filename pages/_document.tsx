@@ -14,6 +14,7 @@ class MyDocument extends Document {
           <meta name="twitter:description" content="The archiving site of Hoshimachi Suisei's YouTube stream and videos. This is a personal project, DO NOT DISTRIBUTE." />
           <meta name="twitter:title" content="Suisei Archive | Treasure every moment of her" />
           <meta name="twitter:image" content="https://img.suisei.cc/icon.png" />
+          <meta name="theme-color" content="#d072a5" />
           <link rel="apple-touch-icon" href="/android-chrome-192x192.png" sizes="192x192" />
           <link rel="manifest" href="/static/manifest.json" />
           <link rel="icon" href="/favicon.ico" />
