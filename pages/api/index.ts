@@ -3,8 +3,6 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { posix as pathPosix } from 'path'
 
 import apiConfig from '../../config/api.json'
-import siteConfig from '../../config/site.json'
-import { compareHashedToken } from '../../utils/tools'
 
 const basePath = pathPosix.resolve('/', apiConfig.base)
 const encodePath = (path: string) => {
@@ -12,7 +10,7 @@ const encodePath = (path: string) => {
   if (encodedPath === '/' || encodedPath === '') {
     return ''
   }
-  return `:${encodeURIComponent(encodedPath)}`
+  return encodeURIComponent(':' + encodedPath)
 }
 
 // Store access token in memory, cuz Vercel doesn't provide key-value storage natively
@@ -43,7 +41,7 @@ const getAccessToken = async () => {
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { path = '/', raw = false, next = '' } = req.query
+  const { path = '/', raw = false } = req.query
   if (path === '[...path]') {
     res.status(400).json({ error: 'No path specified.' })
     return
@@ -51,57 +49,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   if (typeof path === 'string') {
     const accessToken = await getAccessToken()
-
-    // Handle authentication through .password
-    const protectedRoutes = siteConfig.protectedRoutes
-    let authTokenPath = ''
-    for (const r of protectedRoutes) {
-      if (path.startsWith(r)) {
-        authTokenPath = `${r}/.password`
-        break
-      }
-    }
-
-    // Fetch password from remote file content
-    if (authTokenPath !== '') {
-      try {
-        const token = await axios.get(`${apiConfig.driveApi}/root${encodePath(authTokenPath)}`, {
-          headers: { Authorization: `Bearer ${accessToken}` },
-          params: {
-            select: '@microsoft.graph.downloadUrl,file',
-          },
-        })
-
-        // Handle request and check for header 'od-protected-token'
-        const odProtectedToken = await axios.get(token.data['@microsoft.graph.downloadUrl'])
-        // console.log(req.headers['od-protected-token'], odProtectedToken.data.trim())
-
-        if (!compareHashedToken(req.headers['od-protected-token'] as string, odProtectedToken.data)) {
-          res.status(401).json({ error: 'Password required for this folder.' })
-          return
-        }
-      } catch (error: any) {
-        // Password file not found, fallback to 404
-        if (error.response.status === 404) {
-          res.status(404).json({ error: "You didn't set a password for your protected folder." })
-        }
-        res.status(500).end()
-        return
-      }
-    }
-
-    // Handle response from OneDrive API
     const requestUrl = `${apiConfig.driveApi}/root${encodePath(path)}`
+    const { data } = await axios.get(requestUrl, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+      params: {
+        select: '@microsoft.graph.downloadUrl,name,size,id,lastModifiedDateTime,folder,file',
+        expand: 'children(select=@content.downloadUrl,name,lastModifiedDateTime,eTag,size,id,folder,file)',
+      },
+    })
 
-    // Go for file raw download link and query with only temporary link parameter
     if (raw) {
-      const { data } = await axios.get(requestUrl, {
-        headers: { Authorization: `Bearer ${accessToken}` },
-        params: {
-          select: '@microsoft.graph.downloadUrl,folder,file',
-        },
-      })
-
       if ('folder' in data) {
         res.status(400).json({ error: "Folders doesn't have raw download urls." })
         return
@@ -112,45 +69,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
     }
 
-    // Querying current path identity (file or folder) and follow up query childrens in folder
-    // console.log(accessToken)
-
-    const { data: identityData } = await axios.get(requestUrl, {
-      headers: { Authorization: `Bearer ${accessToken}` },
-      params: {
-        select: '@microsoft.graph.downloadUrl,name,size,id,lastModifiedDateTime,folder,file',
-      },
-    })
-
-    if ('folder' in identityData) {
-      const { data: folderData } = await axios.get(`${requestUrl}:/children`, {
-        headers: { Authorization: `Bearer ${accessToken}` },
-        params: next
-          ? {
-              select: '@microsoft.graph.downloadUrl,name,size,id,lastModifiedDateTime,folder,file',
-              top: siteConfig.maxItems,
-              $skipToken: next,
-            }
-          : {
-              select: '@microsoft.graph.downloadUrl,name,size,id,lastModifiedDateTime,folder,file',
-              top: siteConfig.maxItems,
-            },
-      })
-
-      // Extract next page token from full @odata.nextLink
-      const nextPage = folderData['@odata.nextLink']
-        ? folderData['@odata.nextLink'].match(/&\$skiptoken=(.+)/i)[1]
-        : null
-
-      // Return paging token if specified
-      if (nextPage) {
-        res.status(200).json({ folder: folderData, next: nextPage })
-      } else {
-        res.status(200).json({ folder: folderData })
-      }
-      return
-    }
-    res.status(200).json({ file: identityData })
+    res.status(200).json({ path, data })
     return
   }
 
