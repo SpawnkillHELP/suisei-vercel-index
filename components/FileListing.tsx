@@ -59,7 +59,7 @@ const queryToPath = (query?: ParsedUrlQuery) => {
 }
 
 const FileListItem: FunctionComponent<{
-  fileContent: { id: string; name: string; size: number; file: Object; lastModifiedDateTime: string }
+  fileContent: { id: string; name: string; size: number; file: Object }
 }> = ({ fileContent: c }) => {
   const emojiIcon = emojiRegex().exec(c.name)
   const renderEmoji = emojiIcon && !emojiIcon.index
