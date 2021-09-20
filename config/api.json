@@ -1,5 +1,5 @@
 {
-  "clientId": "4ff48e4b-86cf-4731-a00d-3c23730c138a",
+  "clientId": "0f0f401e-2ba3-4ebb-a165-f83eeafe5ecb",
   "redirectUri": "http://localhost",
   "base": "/星街すいせい/YouTube",
   "authApi": "https://login.microsoftonline.com/common/oauth2/v2.0/token",
