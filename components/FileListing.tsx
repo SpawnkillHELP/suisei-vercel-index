@@ -65,7 +65,7 @@ const FileListItem: FunctionComponent<{
   const renderEmoji = emojiIcon && !emojiIcon.index
 
   return (
-    <div className="p-3 grid grid-cols-10 items-center space-x-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800">
+    <div className="p-3 grid grid-cols-8 items-center space-x-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800">
       <div className="flex space-x-2 items-center col-span-10 md:col-span-7 truncate">
         {/* <div>{c.file ? c.file.mimeType : 'folder'}</div> */}
         <div className="w-5 text-center flex-shrink-0">
@@ -78,16 +78,6 @@ const FileListItem: FunctionComponent<{
         <div className="truncate">
           {renderEmoji ? c.name.replace(emojiIcon ? emojiIcon[0] : '', '').trim() : c.name}
         </div>
-      </div>
-      <div className="hidden md:block font-mono text-sm col-span-2 text-gray-700 dark:text-gray-500 flex-shrink-0">
-        {new Date(c.lastModifiedDateTime).toLocaleString('en-US', {
-          year: 'numeric',
-          month: '2-digit',
-          day: '2-digit',
-          hour: '2-digit',
-          minute: '2-digit',
-          hour12: false,
-        })}
       </div>
       <div className="hidden md:block font-mono text-sm text-gray-700 dark:text-gray-500 flex-shrink-0">
         {humanFileSize(c.size)}
@@ -164,9 +154,8 @@ const FileListing: FunctionComponent<{ query?: ParsedUrlQuery }> = ({ query }) =
 
     return (
       <div className="bg-white dark:bg-gray-900 dark:text-gray-100 shadow rounded">
-        <div className="p-3 grid grid-cols-10 items-center space-x-2 border-b border-gray-200 dark:border-gray-700">
-          <div className="col-span-10 md:col-span-7 font-bold">Name</div>
-          <div className="hidden md:block font-bold col-span-2">Last Modified</div>
+        <div className="p-3 grid grid-cols-8 items-center space-x-2 border-b border-gray-200 dark:border-gray-700">
+          <div className="col-span-7 md:col-span-7 font-bold">Name</div>
           <div className="hidden md:block font-bold">Size</div>
         </div>
         <Toaster />
