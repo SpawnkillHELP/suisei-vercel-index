@@ -1,5 +1,5 @@
 <div align="center">
-  <image src="https://raw.githubusercontent.com/aozaki-kuro/archive-guide/main/assets/comet.png" alt="comet" width="150px" />
+  <image src="https://img.suisei.cc/icon.png" alt="suisei-archive-project" width="150px" />
   <h4>Suisei Archive index, powered by Vercel and Next.js</h4>
   <em>Treasure every moment of our dear comet.</em>
 </div>
