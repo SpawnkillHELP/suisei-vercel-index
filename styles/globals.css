@@ -30,9 +30,21 @@
   @apply list-decimal;
 }
 
-/* Custom */
+/* --------- Custom --------- */
 
 .truncate {
   font-family: monospace;
   font-size: 1rem;
 }
+
+/* Night img background change
+
+In markdown-github.css
+
+.markdown-body img {
+    background-color: #18181
+}
+
+*/
+
+/* --------- Custom --------- */
