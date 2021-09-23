@@ -1,11 +1,12 @@
 import Document, { Head, Html, Main, NextScript } from 'next/document'
+import siteConfig from '../config/site.json'
 
 class MyDocument extends Document {
   render() {
     return (
       <Html>
         <Head>
-          <meta property="og:url" content="https://archive.suisei.cc/" />
+        <meta property="og:url" content="https://archive.suisei.cc/" />
           <meta property="og:title" content="Suisei Archive | Treasure every moment" />
           <meta property="og:image" content="https://img.suisei.cc/icon.png" />
           <meta name="description" content="he archiving site of Hoshimachi Suisei's YouTube stream and videos. This is a personal project, DO NOT DISTRIBUTE." />
