@@ -1,7 +1,7 @@
 {
   "title": "Suisei Archive",
   "maxItems": 100,
-  "footer": "<img src='/Project_Stargazer.svg' alt='Suisei Project' />",
+  "footer": "<img src='/Project_Stargazer.svg' alt='Suisei Project' width='185.25rem' height='28rem' />",
   "protectedRoutes": [
     "/🔒z.Lock"
   ],
