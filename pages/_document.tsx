@@ -19,7 +19,7 @@ class MyDocument extends Document {
           <link rel="apple-touch-icon" href="/android-chrome-192x192.png" sizes="192x192" />
           <link rel="manifest" href="/site.webmanifest" />
           <link rel="icon" href="/favicon.ico" />
-          <script async defer data-website-id="d106eaa9-53d6-4ffb-a7ac-52a6d85ca7f7" src="https://insight.suisei.cc/umami.js" />
+          <script async defer data-website-id="b7497845-cde5-47aa-a5f2-aec2ea8b74f3" src="https://analytics.suisei.cc/umami.js" />
         </Head>
         <body>
           <Main />
