@@ -58,7 +58,7 @@ const Navbar = () => {
             rel="noopener noreferrer"
             className="hover:bg-gray-200 dark:text-white dark:hover:bg-gray-700 p-2 rounded"
           >
-            <FontAwesomeIcon icon={['fab', 'github']} size="lg" />
+            <FontAwesomeIcon icon={['fab', 'github']} size="lg" title="github"/>
           </a>
 
           {tokenPresent && (
