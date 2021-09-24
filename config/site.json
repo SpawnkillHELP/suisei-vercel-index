@@ -1,10 +1,9 @@
 {
   "title": "Suisei Archive",
   "maxItems": 100,
-  "footer": "<img src='https://img.suisei.cc/Project%20Stargazer.svg' alt='Suisei Project' />",
+  "footer": "<img src='/Project_Stargazer.svg' alt='Suisei Project' />",
   "protectedRoutes": [
-    "/🌞 Private folder/u-need-a-password",
-    "/🥟 Some test files/Protected route"
+    "/🔒z.Lock"
   ],
   "contact": {
     "github": "https://github.com/spencerwooo/onedrive-vercel-index"
