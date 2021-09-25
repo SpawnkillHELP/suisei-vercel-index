@@ -23,7 +23,7 @@ Maintaining the website and the archive storage takes time and money.
 
 Please consider supporting the project.
 
-<a href='https://ko-fi.com/F1F46CGFC' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://cdn.ko-fi.com/cdn/kofi1.png?v=3' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
+<a href='https://ko-fi.com/F1F46CGFC' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://cdn.ko-fi.com/cdn/kofi2.png?v=3' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
 
 ---
 
