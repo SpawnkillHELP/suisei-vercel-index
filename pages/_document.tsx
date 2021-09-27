@@ -19,7 +19,7 @@ class MyDocument extends Document {
           <link rel="apple-touch-icon" href="/android-chrome-192x192.png" sizes="192x192" />
           <link rel="manifest" href="/site.webmanifest" />
           <link rel="icon" href="/favicon.ico" />
-          <script async defer data-website-id="74f1eb95-89d0-4e7c-bd53-8b838532339d" src="https://insight.suisei.cc/umami.js" />
+          <script async defer data-domain="archive.suisei.cc" src="https://insight.suisei.cc/js/plausible.js" />
         </Head>
         <body>
           <Main />
