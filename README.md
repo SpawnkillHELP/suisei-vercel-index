@@ -1,6 +1,6 @@
 <div align="center">
   <br>
-  <img src="https://img.suisei.cc/icon.png" alt="suisei-archive-project" />
+  <img src="https://img.suisei.cc/icon/star.png" alt="suisei-archive-project" />
   <h3><a href="/">Suisei Archive Project</a></h3>
   <p><em>Treasure every moment of our dear comet</em></p>
 
