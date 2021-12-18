@@ -19,6 +19,11 @@ class MyDocument extends Document {
           <link rel="apple-touch-icon" href="https://img.suisei.cc/icon/star.png" sizes="192x192" />
           <link rel="manifest" href="/site.webmanifest" />
           <link rel="icon" href="/favicon.ico" />
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
+          {siteConfig.googleFontLinks.map(link => (
+            <link key={link} rel="stylesheet" href={link} />
+          ))}
           <script async defer data-website-id="74f1eb95-89d0-4e7c-bd53-8b838532339d" src="https://insight.suisei.cc/app.js" />
         </Head>
         <body>
