@@ -24,7 +24,7 @@ class MyDocument extends Document {
           {siteConfig.googleFontLinks.map(link => (
             <link key={link} rel="stylesheet" href={link} />
           ))}
-          <script async defer data-website-id="74f1eb95-89d0-4e7c-bd53-8b838532339d" src="https://insight.suisei.cc/app.js" />
+          <script defer data-domain="archive.suisei.cc" src="https://beacon.suisei.cc/app.js" />
         </Head>
         <body>
           <Main />
