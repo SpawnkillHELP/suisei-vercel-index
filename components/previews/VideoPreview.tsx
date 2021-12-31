@@ -32,14 +32,6 @@ const VideoPreview: FunctionComponent<{ file: any }> = ({ file }) => {
           btnIcon="file-download"
         />
         <DownloadButton
-          onClickCallback={() =>
-            window.open(`/api/proxy?url=${encodeURIComponent(file['@microsoft.graph.downloadUrl'])}`)
-          }
-          btnColor="teal"
-          btnText="Proxy download"
-          btnIcon="download"
-        />
-        <DownloadButton
           onClickCallback={() => {
             clipboard.copy(`${getBaseUrl()}/api?path=${asPath}&raw=true`)
             toast.success('Copied direct link to clipboard.')
