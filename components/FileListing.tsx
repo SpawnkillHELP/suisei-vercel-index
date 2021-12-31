@@ -16,7 +16,6 @@ import { useProtectedSWRInfinite } from '../utils/fetchWithSWR'
 import { getBaseUrl } from '../utils/getBaseUrl'
 import {
   DownloadingToast,
-  downloadMultipleFiles,
   downloadTreelikeMultipleFiles,
   traverseFolder,
 } from './MultiFileDownloader'
@@ -93,51 +92,6 @@ const FileListItem: FunctionComponent<{
         {humanFileSize(c.size)}
       </div>
     </div>
-  )
-}
-
-const Checkbox: FunctionComponent<{
-  checked: 0 | 1 | 2
-  onChange: () => void
-  title: string
-  indeterminate?: boolean
-}> = ({ checked, onChange, title, indeterminate }) => {
-  const ref = useRef<HTMLInputElement>(null)
-
-  useEffect(() => {
-    if (ref.current) {
-      ref.current.checked = Boolean(checked)
-      if (indeterminate) {
-        ref.current.indeterminate = checked == 1
-      }
-    }
-  }, [ref, checked, indeterminate])
-
-  const handleClick: MouseEventHandler = e => {
-    if (ref.current) {
-      if (e.target === ref.current) {
-        e.stopPropagation()
-      } else {
-        ref.current.click()
-      }
-    }
-  }
-
-  return (
-    <span
-      title={title}
-      className="hover:bg-gray-300 dark:hover:bg-gray-600 p-2 rounded cursor-pointer"
-      onClick={handleClick}
-    >
-      <input
-        className="form-check-input cursor-pointer"
-        type="checkbox"
-        value={checked ? '1' : ''}
-        ref={ref}
-        aria-label={title}
-        onChange={onChange}
-      />
-    </span>
   )
 }
 
@@ -239,59 +193,6 @@ const FileListing: FunctionComponent<{ query?: ParsedUrlQuery }> = ({ query }) =
       const selectInfo = getFiles().map((c: any) => Boolean(selected[c.id]))
       const [hasT, hasF] = [selectInfo.some(i => i), selectInfo.some(i => !i)]
       return hasT && hasF ? 1 : !hasF ? 2 : 0
-    }
-
-    const toggleItemSelected = (id: string) => {
-      let val: SetStateAction<{ [key: string]: boolean }>
-      if (selected[id]) {
-        val = { ...selected }
-        delete val[id]
-      } else {
-        val = { ...selected, [id]: true }
-      }
-      setSelected(val)
-      setTotalSelected(genTotalSelected(val))
-    }
-
-    const toggleTotalSelected = () => {
-      if (genTotalSelected(selected) == 2) {
-        setSelected({})
-        setTotalSelected(0)
-      } else {
-        setSelected(Object.fromEntries(getFiles().map((c: any) => [c.id, true])))
-        setTotalSelected(2)
-      }
-    }
-
-    // Selected file download
-    const handleSelectedDownload = () => {
-      const folderName = path.substring(path.lastIndexOf('/') + 1)
-      const folder = folderName ? decodeURIComponent(folderName) : undefined
-      const files = getFiles()
-        .filter((c: any) => selected[c.id])
-        .map((c: any) => ({ name: c.name, url: c['@microsoft.graph.downloadUrl'] }))
-
-      if (files.length == 1) {
-        const el = document.createElement('a')
-        el.style.display = 'none'
-        document.body.appendChild(el)
-        el.href = files[0].url
-        el.click()
-        el.remove()
-      } else if (files.length > 1) {
-        setTotalGenerating(true)
-
-        const toastId = toast.loading(DownloadingToast(router))
-        downloadMultipleFiles({ toastId, router, files, folder })
-          .then(() => {
-            setTotalGenerating(false)
-            toast.success('Finished downloading selected files.', { id: toastId })
-          })
-          .catch(() => {
-            setTotalGenerating(false)
-            toast.error('Failed to download selected files.', { id: toastId })
-          })
-      }
     }
 
     // Folder recursive download
