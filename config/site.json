@@ -1,10 +1,10 @@
 {
   "title": "Suisei Archive",
   "maxItems": 100,
-  "googleFontSans": "Overpass",
-  "googleFontMono": "Overpass Mono",
+  "googleFontSans": "Inter",
+  "googleFontMono": "Fira Mono",
   "googleFontLinks": [
-    "https://fonts.googleapis.com/css2?family=Overpass+Mono&family=Overpass:wght@400;700&display=swap"
+    "https://fonts.googleapis.com/css2?family=Fira+Mono&family=Inter:wght@400;500;700&display=swap"
   ],
   "footer": "<img src='/Project_Stargazer.svg' alt='Suisei Project' width='185.25rem' height='28rem' />",
   "protectedRoutes": [

@@ -995,7 +995,7 @@
     background-color: #18181b;
   }
   .markdown-body a {
-    color: #58a6ff;
+    color: rgba(2, 132, 199);
   }
   .markdown-body hr {
     border-bottom: 1px solid #21262d;
@@ -1139,8 +1139,7 @@
     background-color: #161b22;
   }
   .markdown-body img {
-    /* THIS IS NOT SYNCED */
-    background-color: #18181b;
+    background-color: #0d1117;
   }
   .markdown-body code {
     background-color: rgba(240, 246, 252, 0.15);

@@ -30,11 +30,11 @@ import CodePreview from './previews/CodePreview'
 import OfficePreview from './previews/OfficePreview'
 import AudioPreview from './previews/AudioPreview'
 import VideoPreview from './previews/VideoPreview'
-import DownloadBtn from './DownloadBtn'
+import DownloadButtonGroup from './DownloadBtnGtoup'
+import PDFPreview from './previews/PDFPreview'
 
 // Disabling SSR for some previews (image gallery view, and PDF view)
 const ReactViewer = dynamic(() => import('react-viewer'), { ssr: false })
-const PDFPreview = dynamic(() => import('./previews/PDFPreview'), { ssr: false })
 const EPUBPreview = dynamic(() => import('./previews/EPUBPreview'), { ssr: false })
 
 /**
@@ -326,7 +326,7 @@ const FileListing: FunctionComponent<{ query?: ParsedUrlQuery }> = ({ query }) =
         <div className="dark:border-gray-700 grid items-center grid-cols-12 px-3 space-x-2 border-b border-gray-200">
           <div className="md:col-span-10 col-span-10 font-bold py-3">Name</div>
           <div className="md:block hidden font-bold">&nbsp;Size</div>
-          <div className="md:block hidden font-bold">&nbsp;&nbsp;Action</div>
+          <div className="md:block hidden font-bold">&nbsp;&nbsp;&nbsp;Action</div>
         </div>
 
         <Toaster />
@@ -548,7 +548,7 @@ const FileListing: FunctionComponent<{ query?: ParsedUrlQuery }> = ({ query }) =
           />
         </div>
         <div className="mt-4">
-          <DownloadBtn downloadUrl={downloadUrl} />
+          <DownloadButtonGroup downloadUrl={downloadUrl} />
         </div>
       </>
     )
