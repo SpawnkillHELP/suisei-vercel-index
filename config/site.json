@@ -10,7 +10,14 @@
   "protectedRoutes": [
     "/🔒z.Lock"
   ],
-  "contact": {
-    "github": "https://github.com/spencerwooo/onedrive-vercel-index"
-  }
+  "links": [
+    {
+      "name": "GitHub",
+      "link": "https://github.com/spencerwooo/onedrive-vercel-index"
+    },
+    {
+      "name": "Patreon",
+      "link": "https://www.patreon.com/project_startgazer"
+    }
+  ]
 }

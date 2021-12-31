@@ -52,6 +52,18 @@ const Navbar = () => {
         </Link>
 
         <div className="flex items-center space-x-4 text-gray-700">
+          {siteConfig.links.map(l => (
+            <a
+              key={l.name}
+              href={l.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center space-x-2 dark:text-white hover:opacity-80"
+            >
+              <FontAwesomeIcon icon={['fab', l.name.toLowerCase() as IconName]} />
+              <span className="text-sm font-medium hidden md:inline-block">{l.name}</span>
+            </a>
+          ))}
 
           {tokenPresent && (
             <button
