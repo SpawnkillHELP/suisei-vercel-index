@@ -19,9 +19,7 @@ module.exports = {
       indigo: colors.indigo,
       purple: colors.purple,
       pink: colors.pink,
-      teal: colors.teal,
-      cyan: colors.cyan,
-      orange: colors.orange,
+      teal: colors.teal
     },
     extend: {
       fontFamily: {

@@ -20,7 +20,6 @@ import {
   faArrowAltCircleDown,
   faTrashAlt,
   faEnvelope,
-  faCheckCircle,
 } from '@fortawesome/free-regular-svg-icons'
 import {
   faPlus,
@@ -37,10 +36,6 @@ import {
   faSignOutAlt,
   faCloud,
   faChevronCircleDown,
-  faExternalLinkAlt,
-  faExclamationCircle,
-  faExclamationTriangle,
-  faHome,
 } from '@fortawesome/free-solid-svg-icons'
 import * as Icons from '@fortawesome/free-brands-svg-icons'
 
@@ -83,12 +78,7 @@ library.add(
   faEnvelope,
   faCloud,
   faChevronCircleDown,
-  faExternalLinkAlt,
-  faExclamationCircle,
-  faExclamationTriangle,
-  faHome,
-  faCheckCircle,
-  ...iconList
+  ...iconList,
 )
 
 function MyApp({ Component, pageProps }: AppProps) {
