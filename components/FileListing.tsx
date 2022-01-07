@@ -4,7 +4,7 @@ import emojiRegex from 'emoji-regex'
 import { useClipboard } from 'use-clipboard-copy'
 
 import { ParsedUrlQuery } from 'querystring'
-import { FC, MouseEventHandler, SetStateAction, useEffect, useRef, useState } from 'react'
+import { FC, MouseEventHandler, useEffect, useRef, useState } from 'react'
 import { ImageDecorator } from 'react-viewer/lib/ViewerProps'
 
 import { useRouter } from 'next/router'
@@ -16,7 +16,6 @@ import { useProtectedSWRInfinite } from '../utils/fetchWithSWR'
 import { getBaseUrl } from '../utils/getBaseUrl'
 import {
   DownloadingToast,
-  downloadMultipleFiles,
   downloadTreelikeMultipleFiles,
   traverseFolder,
 } from './MultiFileDownloader'
@@ -24,14 +23,14 @@ import {
 import Loading, { LoadingIcon } from './Loading'
 import FourOhFour from './FourOhFour'
 import Auth from './Auth'
-import TextPreview from './previews/TextPreview'
+//import TextPreview from './previews/TextPreview'
 import MarkdownPreview from './previews/MarkdownPreview'
-import CodePreview from './previews/CodePreview'
-import OfficePreview from './previews/OfficePreview'
+//import CodePreview from './previews/CodePreview'
+//import OfficePreview from './previews/OfficePreview'
 import AudioPreview from './previews/AudioPreview'
 import VideoPreview from './previews/VideoPreview'
 import DownloadButtonGroup from './DownloadBtnGtoup'
-import PDFPreview from './previews/PDFPreview'
+//import PDFPreview from './previews/PDFPreview'
 import { DownloadBtnContainer, PreviewContainer } from './previews/Containers'
 
 // Disabling SSR for some previews (image gallery view, and PDF view)
@@ -157,9 +156,9 @@ const Downloading: FC<{ title: string }> = ({ title }) => {
 const FileListing: FC<{ query?: ParsedUrlQuery }> = ({ query }) => {
   const [imageViewerVisible, setImageViewerVisibility] = useState(false)
   const [activeImageIdx, setActiveImageIdx] = useState(0)
-  const [selected, setSelected] = useState<{ [key: string]: boolean }>({})
-  const [totalSelected, setTotalSelected] = useState<0 | 1 | 2>(0)
-  const [totalGenerating, setTotalGenerating] = useState<boolean>(false)
+  //const [selected, setSelected] = useState<{ [key: string]: boolean }>({})
+  //const [totalSelected, setTotalSelected] = useState<0 | 1 | 2>(0)
+  //const [totalGenerating, setTotalGenerating] = useState<boolean>(false)
   const [folderGenerating, setFolderGenerating] = useState<{ [key: string]: boolean }>({})
 
   const router = useRouter()
@@ -463,11 +462,11 @@ const FileListing: FC<{ query?: ParsedUrlQuery }> = ({ query }) => {
             </PreviewContainer>
           )
 
-        case preview.text:
-          return <TextPreview file={file} />
+        //case preview.text:
+        //  return <TextPreview file={file} />
 
-        case preview.code:
-          return <CodePreview file={file} />
+        //case preview.code:
+        //  return <CodePreview file={file} />
 
         case preview.markdown:
           return <MarkdownPreview file={file} path={path} />
@@ -478,11 +477,11 @@ const FileListing: FC<{ query?: ParsedUrlQuery }> = ({ query }) => {
         case preview.audio:
           return <AudioPreview file={file} />
 
-        case preview.pdf:
-          return <PDFPreview file={file} />
+        //case preview.pdf:
+        //  return <PDFPreview file={file} />
 
-        case preview.office:
-          return <OfficePreview file={file} />
+        //case preview.office:
+        //  return <OfficePreview file={file} />
 
         case preview.epub:
           return <EPUBPreview file={file} />
