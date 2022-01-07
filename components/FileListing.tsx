@@ -77,7 +77,7 @@ const FileListItem: FC<{
 
   return (
     <div className="grid items-center grid-cols-10 px-3 py-2.5 space-x-2 cursor-pointer">
-      <div className="md:col-span-6 flex items-center col-span-10 space-x-2 truncate">
+      <div className="md:col-span-9 flex items-center col-span-10 space-x-2 truncate">
         {/* <div>{c.file ? c.file.mimeType : 'folder'}</div> */}
         <div className="flex-shrink-0 w-5 text-center">
           {renderEmoji ? (
@@ -274,11 +274,8 @@ const FileListing: FC<{ query?: ParsedUrlQuery }> = ({ query }) => {
       <>
         <div className="dark:bg-gray-900 dark:text-gray-100 bg-white rounded">
           <div className="dark:border-gray-500/30 grid items-center grid-cols-12 px-3 space-x-2 border-b border-gray-900/10">
-            <div className="md:col-span-6 col-span-12 font-bold py-2 text-gray-600 dark:text-gray-300 uppercase tracking-widest text-xs">
+            <div className="md:col-span-10 col-span-12 font-bold py-2 text-gray-600 dark:text-gray-300 uppercase tracking-widest text-xs">
               Name
-            </div>
-            <div className="md:block hidden col-span-3 font-bold text-gray-600 dark:text-gray-300 uppercase tracking-widest text-xs">
-              Last Modified
             </div>
             <div className="md:block hidden font-bold text-gray-600 dark:text-gray-300 uppercase tracking-widest text-xs">Size</div>
             <div className="md:block hidden font-bold text-gray-600 dark:text-gray-300 uppercase tracking-widest text-xs">Actions</div>
@@ -326,7 +323,7 @@ const FileListing: FC<{ query?: ParsedUrlQuery }> = ({ query }) => {
           {children.map((c: any) => (
             <div className="hover:bg-gray-100 dark:hover:bg-gray-850 grid grid-cols-12" key={c.id}>
               <div
-                className="col-span-10"
+                className="col-span-11"
                 onClick={e => {
                   e.preventDefault()
 
