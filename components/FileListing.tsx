@@ -390,17 +390,6 @@ const FileListing: FC<{ query?: ParsedUrlQuery }> = ({ query }) => {
                   </a>
                 </div>
               )}
-              <div className="md:flex dark:text-gray-400 hidden p-1 text-gray-700">
-                {c.folder || c.name === '.password' ? (
-                  ''
-                ) : (
-                  <Checkbox
-                    checked={selected[c.id] ? 2 : 0}
-                    onChange={() => toggleItemSelected(c.id)}
-                    title="Select file"
-                  />
-                )}
-              </div>
             </div>
           ))}
 
