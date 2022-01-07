@@ -1,5 +1,7 @@
 {
+  "icon": "android-chrome-192x192.png",
   "title": "Suisei Archive",
+  "baseDirectory": "/星街すいせい/YouTube",
   "maxItems": 100,
   "googleFontSans": "Inter",
   "googleFontMono": "Fira Mono",
@@ -10,6 +12,7 @@
   "protectedRoutes": [
     "/🔒z.Lock"
   ],
+  "email": "",
   "links": [
     {
       "name": "GitHub",

@@ -2,22 +2,22 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { FunctionComponent, useState } from 'react'
+import { FC, useState } from 'react'
 
 import { matchProtectedRoute } from '../utils/protectedRouteHandler'
 import useLocalStorage from '../utils/useLocalStorage'
 
-const Auth: FunctionComponent<{ redirect: string }> = ({ redirect }) => {
+const Auth: FC<{ redirect: string }> = ({ redirect }) => {
   const authTokenPath = matchProtectedRoute(redirect)
 
   const router = useRouter()
   const [token, setToken] = useState('')
-  const [persistedToken, setPersistedToken] = useLocalStorage(authTokenPath, '')
+  const [_, setPersistedToken] = useLocalStorage(authTokenPath, '')
 
   return (
     <div className="md:my-10 flex flex-col max-w-sm mx-auto space-y-4">
       <div className="md:w-5/6 w-3/4 mx-auto">
-        <Image src={'/images/no-looking.png'} alt="authenticate" width={912} height={912} />
+        <Image src={'/images/fabulous-wapmire-weekdays.png'} alt="authenticate" width={912} height={912} priority />
       </div>
       <div className="dark:text-gray-100 text-lg font-bold text-gray-900">Enter Password</div>
 
