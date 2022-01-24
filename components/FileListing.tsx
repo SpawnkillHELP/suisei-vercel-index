@@ -32,14 +32,14 @@ import CodePreview from './previews/CodePreview'
 import AudioPreview from './previews/AudioPreview'
 import VideoPreview from './previews/VideoPreview'
 //import PDFPreview from './previews/PDFPreview'
-import URLPreview from './previews/URLPreview'
-import DefaultPreview from './previews/DefaultPreview'
+//import URLPreview from './previews/URLPreview'
+//import DefaultPreview from './previews/DefaultPreview'
 import { DownloadBtnContainer, PreviewContainer } from './previews/Containers'
 import DownloadButtonGroup from './DownloadBtnGtoup'
 
 // Disabling SSR for some previews (image gallery view, and PDF view)
 const ReactViewer = dynamic(() => import('react-viewer'), { ssr: false })
-const EPUBPreview = dynamic(() => import('./previews/EPUBPreview'), { ssr: false })
+//const EPUBPreview = dynamic(() => import('./previews/EPUBPreview'), { ssr: false })
 
 /**
  * Convert url query into path string
@@ -484,15 +484,15 @@ const FileListing: FC<{ query?: ParsedUrlQuery }> = ({ query }) => {
         //case preview.epub:
         //  return <EPUBPreview file={file} />
 
-        case preview.url:
-          return <URLPreview file={file} />
+        //case preview.url:
+        //  return <URLPreview file={file} />
 
-        default:
-          return <DefaultPreview file={file} />
+        //default:
+        //  return <DefaultPreview file={file} />
       }
-    } else {
-      return <DefaultPreview file={file} />
-    }
+    } //else {
+      //return <DefaultPreview file={file} />
+    //}
   }
 
   return (
