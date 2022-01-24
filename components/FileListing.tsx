@@ -4,13 +4,13 @@ import emojiRegex from 'emoji-regex'
 import { useClipboard } from 'use-clipboard-copy'
 
 import { ParsedUrlQuery } from 'querystring'
-import { FC, MouseEventHandler, SetStateAction, useEffect, useRef, useState } from 'react'
+import { FC, useState } from 'react'
 import { ImageDecorator } from 'react-viewer/lib/ViewerProps'
 
 import { useRouter } from 'next/router'
 import dynamic from 'next/dynamic'
 
-import { humanFileSize, formatModifiedDateTime } from '../utils/fileDetails'
+import { humanFileSize } from '../utils/fileDetails'
 import { getExtension, getFileIcon, hasKey } from '../utils/getFileIcon'
 import { extensions, preview } from '../utils/getPreviewType'
 import { useProtectedSWRInfinite } from '../utils/fetchWithSWR'
@@ -27,13 +27,13 @@ import FourOhFour from './FourOhFour'
 import Auth from './Auth'
 import TextPreview from './previews/TextPreview'
 import MarkdownPreview from './previews/MarkdownPreview'
-import CodePreview from './previews/CodePreview'
+//import CodePreview from './previews/CodePreview'
 //import OfficePreview from './previews/OfficePreview'
 import AudioPreview from './previews/AudioPreview'
 import VideoPreview from './previews/VideoPreview'
 //import PDFPreview from './previews/PDFPreview'
-//import URLPreview from './previews/URLPreview'
-//import DefaultPreview from './previews/DefaultPreview'
+import URLPreview from './previews/URLPreview'
+import DefaultPreview from './previews/DefaultPreview'
 import { DownloadBtnContainer, PreviewContainer } from './previews/Containers'
 import DownloadButtonGroup from './DownloadBtnGtoup'
 
@@ -82,51 +82,6 @@ const FileListItem: FC<{
         {humanFileSize(c.size)}
       </div>
     </div>
-  )
-}
-
-const Checkbox: FC<{
-  checked: 0 | 1 | 2
-  onChange: () => void
-  title: string
-  indeterminate?: boolean
-}> = ({ checked, onChange, title, indeterminate }) => {
-  const ref = useRef<HTMLInputElement>(null)
-
-  useEffect(() => {
-    if (ref.current) {
-      ref.current.checked = Boolean(checked)
-      if (indeterminate) {
-        ref.current.indeterminate = checked == 1
-      }
-    }
-  }, [ref, checked, indeterminate])
-
-  const handleClick: MouseEventHandler = e => {
-    if (ref.current) {
-      if (e.target === ref.current) {
-        e.stopPropagation()
-      } else {
-        ref.current.click()
-      }
-    }
-  }
-
-  return (
-    <span
-      title={title}
-      className="hover:bg-gray-300 dark:hover:bg-gray-600 p-1.5 inline-flex items-center rounded cursor-pointer"
-      onClick={handleClick}
-    >
-      <input
-        className="form-check-input cursor-pointer"
-        type="checkbox"
-        value={checked ? '1' : ''}
-        ref={ref}
-        aria-label={title}
-        onChange={onChange}
-      />
-    </span>
   )
 }
 
@@ -463,8 +418,8 @@ const FileListing: FC<{ query?: ParsedUrlQuery }> = ({ query }) => {
         case preview.text:
           return <TextPreview file={file} />
 
-        case preview.code:
-          return <CodePreview file={file} />
+        //case preview.code:
+        //  return <CodePreview file={file} />
 
         case preview.markdown:
           return <MarkdownPreview file={file} path={path} />
@@ -484,15 +439,15 @@ const FileListing: FC<{ query?: ParsedUrlQuery }> = ({ query }) => {
         //case preview.epub:
         //  return <EPUBPreview file={file} />
 
-        //case preview.url:
-        //  return <URLPreview file={file} />
+        case preview.url:
+          return <URLPreview file={file} />
 
-        //default:
-        //  return <DefaultPreview file={file} />
+        default:
+          return <DefaultPreview file={file} />
       }
-    } //else {
-      //return <DefaultPreview file={file} />
-    //}
+    } else {
+      return <DefaultPreview file={file} />
+    }
   }
 
   return (
