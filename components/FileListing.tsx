@@ -4,18 +4,20 @@ import emojiRegex from 'emoji-regex'
 import { useClipboard } from 'use-clipboard-copy'
 
 import { ParsedUrlQuery } from 'querystring'
-import { FC, MouseEventHandler, useEffect, useRef, useState } from 'react'
+import { FC, MouseEventHandler, SetStateAction, useEffect, useRef, useState } from 'react'
 import { ImageDecorator } from 'react-viewer/lib/ViewerProps'
 
 import { useRouter } from 'next/router'
 import dynamic from 'next/dynamic'
 
+import { humanFileSize, formatModifiedDateTime } from '../utils/fileDetails'
 import { getExtension, getFileIcon, hasKey } from '../utils/getFileIcon'
 import { extensions, preview } from '../utils/getPreviewType'
 import { useProtectedSWRInfinite } from '../utils/fetchWithSWR'
 import { getBaseUrl } from '../utils/getBaseUrl'
 import {
   DownloadingToast,
+  //downloadMultipleFiles,
   downloadTreelikeMultipleFiles,
   traverseFolder,
 } from './MultiFileDownloader'
@@ -23,34 +25,21 @@ import {
 import Loading, { LoadingIcon } from './Loading'
 import FourOhFour from './FourOhFour'
 import Auth from './Auth'
-//import TextPreview from './previews/TextPreview'
+import TextPreview from './previews/TextPreview'
 import MarkdownPreview from './previews/MarkdownPreview'
-//import CodePreview from './previews/CodePreview'
+import CodePreview from './previews/CodePreview'
 //import OfficePreview from './previews/OfficePreview'
 import AudioPreview from './previews/AudioPreview'
 import VideoPreview from './previews/VideoPreview'
-import DownloadButtonGroup from './DownloadBtnGtoup'
 //import PDFPreview from './previews/PDFPreview'
+import URLPreview from './previews/URLPreview'
+import DefaultPreview from './previews/DefaultPreview'
 import { DownloadBtnContainer, PreviewContainer } from './previews/Containers'
+import DownloadButtonGroup from './DownloadBtnGtoup'
 
 // Disabling SSR for some previews (image gallery view, and PDF view)
 const ReactViewer = dynamic(() => import('react-viewer'), { ssr: false })
 const EPUBPreview = dynamic(() => import('./previews/EPUBPreview'), { ssr: false })
-
-/**
- * Convert raw bits file/folder size into a human readable string
- *
- * @param size File or folder size, in raw bits
- * @returns Human readable form of the file or folder size
- */
-const humanFileSize = (size: number) => {
-  if (size < 1024) return size + ' B'
-  const i = Math.floor(Math.log(size) / Math.log(1024))
-  const num = size / Math.pow(1024, i)
-  const round = Math.round(num)
-  const formatted = round < 10 ? num.toFixed(2) : round < 100 ? num.toFixed(1) : round
-  return `${formatted} ${'KMGTPEZY'[i - 1]}B`
-}
 
 /**
  * Convert url query into path string
@@ -126,7 +115,7 @@ const Checkbox: FC<{
   return (
     <span
       title={title}
-      className="hover:bg-gray-300 dark:hover:bg-gray-600 p-2 rounded cursor-pointer"
+      className="hover:bg-gray-300 dark:hover:bg-gray-600 p-1.5 inline-flex items-center rounded cursor-pointer"
       onClick={handleClick}
     >
       <input
@@ -172,14 +161,14 @@ const FileListing: FC<{ query?: ParsedUrlQuery }> = ({ query }) => {
     console.log(error)
 
     // If error includes 403 which means the user has not completed initial setup, redirect to OAuth page
-    if (error.message.includes('403')) {
+    if (error.status === 403) {
       router.push('/onedrive-vercel-index-oauth/step-1')
       return <div></div>
     }
 
     return (
       <PreviewContainer>
-        {error.message.includes('401') ? <Auth redirect={path} /> : <FourOhFour errorMsg={error.message} />}
+        {error.status === 401 ? <Auth redirect={path} /> : <FourOhFour errorMsg={JSON.stringify(error.message)} />}
       </PreviewContainer>
     )
   }
@@ -276,8 +265,12 @@ const FileListing: FC<{ query?: ParsedUrlQuery }> = ({ query }) => {
             <div className="md:col-span-10 col-span-12 font-bold py-2 text-gray-600 dark:text-gray-300 uppercase tracking-widest text-xs">
               Name
             </div>
-            <div className="md:block hidden font-bold text-gray-600 dark:text-gray-300 uppercase tracking-widest text-xs">Size</div>
-            <div className="md:block hidden font-bold text-gray-600 dark:text-gray-300 uppercase tracking-widest text-xs">Actions</div>
+            <div className="md:block hidden font-bold text-gray-600 dark:text-gray-300 uppercase tracking-widest text-xs">
+              Size
+            </div>
+            <div className="md:block hidden font-bold text-gray-600 dark:text-gray-300 uppercase tracking-widest text-xs">
+              Actions
+            </div>
           </div>
 
           <Toaster />
@@ -364,7 +357,7 @@ const FileListing: FC<{ query?: ParsedUrlQuery }> = ({ query }) => {
                   )}
                 </div>
               ) : (
-                <div className="md:flex dark:text-gray-400 hidden px-1.5 py-1 text-gray-700">
+                <div className="md:flex dark:text-gray-400 hidden p-1.5 text-gray-700">
                   <span
                     title="Copy raw file permalink"
                     className="hover:bg-gray-300 dark:hover:bg-gray-600 px-1.5 py-1 rounded cursor-pointer"
@@ -379,7 +372,7 @@ const FileListing: FC<{ query?: ParsedUrlQuery }> = ({ query }) => {
                   </span>
                   <a
                     title="Download file"
-                    className="hover:bg-gray-300 dark:hover:bg-gray-600 p-1 rounded cursor-pointer"
+                    className="hover:bg-gray-300 dark:hover:bg-gray-600 px-1.5 py-1 rounded cursor-pointer"
                     href={c['@microsoft.graph.downloadUrl']}
                   >
                     <FontAwesomeIcon icon={['far', 'arrow-alt-circle-down']} />
@@ -456,17 +449,22 @@ const FileListing: FC<{ query?: ParsedUrlQuery }> = ({ query }) => {
       switch (extensions[fileExtension]) {
         case preview.image:
           return (
-            <PreviewContainer>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img className="mx-auto" src={downloadUrl} alt={fileName} />
-            </PreviewContainer>
+            <>
+              <PreviewContainer>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img className="mx-auto" src={downloadUrl} alt={fileName} />
+              </PreviewContainer>
+              <DownloadBtnContainer>
+                <DownloadButtonGroup downloadUrl={file['@microsoft.graph.downloadUrl']} />
+              </DownloadBtnContainer>
+            </>
           )
 
-        //case preview.text:
-        //  return <TextPreview file={file} />
+        case preview.text:
+          return <TextPreview file={file} />
 
-        //case preview.code:
-        //  return <CodePreview file={file} />
+        case preview.code:
+          return <CodePreview file={file} />
 
         case preview.markdown:
           return <MarkdownPreview file={file} path={path} />
@@ -483,26 +481,18 @@ const FileListing: FC<{ query?: ParsedUrlQuery }> = ({ query }) => {
         //case preview.office:
         //  return <OfficePreview file={file} />
 
-        case preview.epub:
-          return <EPUBPreview file={file} />
+        //case preview.epub:
+        //  return <EPUBPreview file={file} />
+
+        case preview.url:
+          return <URLPreview file={file} />
 
         default:
-          return <PreviewContainer>{fileName}</PreviewContainer>
+          return <DefaultPreview file={file} />
       }
+    } else {
+      return <DefaultPreview file={file} />
     }
-
-    return (
-      <>
-        <PreviewContainer>
-          <FourOhFour
-            errorMsg={`Preview for file ${fileName} is not available, download directly with the button below.`}
-          />
-        </PreviewContainer>
-        <DownloadBtnContainer>
-          <DownloadButtonGroup downloadUrl={downloadUrl} />
-        </DownloadBtnContainer>
-      </>
-    )
   }
 
   return (
