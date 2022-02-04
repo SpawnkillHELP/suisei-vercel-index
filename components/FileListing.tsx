@@ -11,13 +11,12 @@ import { useRouter } from 'next/router'
 import dynamic from 'next/dynamic'
 
 import { humanFileSize } from '../utils/fileDetails'
-import { getExtension, getFileIcon, hasKey } from '../utils/getFileIcon'
-import { extensions, preview } from '../utils/getPreviewType'
+import { getExtension, getFileIcon } from '../utils/getFileIcon'
+import { getPreviewType, preview } from '../utils/getPreviewType'
 import { useProtectedSWRInfinite } from '../utils/fetchWithSWR'
 import { getBaseUrl } from '../utils/getBaseUrl'
 import {
   DownloadingToast,
-  //downloadMultipleFiles,
   downloadTreelikeMultipleFiles,
   traverseFolder,
 } from './MultiFileDownloader'
@@ -27,19 +26,17 @@ import FourOhFour from './FourOhFour'
 import Auth from './Auth'
 import TextPreview from './previews/TextPreview'
 import MarkdownPreview from './previews/MarkdownPreview'
-//import CodePreview from './previews/CodePreview'
-//import OfficePreview from './previews/OfficePreview'
 import AudioPreview from './previews/AudioPreview'
 import VideoPreview from './previews/VideoPreview'
-//import PDFPreview from './previews/PDFPreview'
 import URLPreview from './previews/URLPreview'
 import DefaultPreview from './previews/DefaultPreview'
 import { DownloadBtnContainer, PreviewContainer } from './previews/Containers'
 import DownloadButtonGroup from './DownloadBtnGtoup'
 
+import type { OdFileObject, OdFolderObject } from '../types'
+
 // Disabling SSR for some previews (image gallery view, and PDF view)
 const ReactViewer = dynamic(() => import('react-viewer'), { ssr: false })
-//const EPUBPreview = dynamic(() => import('./previews/EPUBPreview'), { ssr: false })
 
 /**
  * Convert url query into path string
@@ -57,9 +54,7 @@ const queryToPath = (query?: ParsedUrlQuery) => {
   return '/'
 }
 
-const FileListItem: FC<{
-  fileContent: { id: string; name: string; size: number; file: Object; lastModifiedDateTime: string }
-}> = ({ fileContent: c }) => {
+const FileListItem: FC<{ fileContent: OdFolderObject['value'][number] }> = ({ fileContent: c }) => {
   const emojiIcon = emojiRegex().exec(c.name)
   const renderEmoji = emojiIcon && !emojiIcon.index
 
@@ -71,7 +66,7 @@ const FileListItem: FC<{
           {renderEmoji ? (
             <span>{emojiIcon ? emojiIcon[0] : '📁'}</span>
           ) : (
-            <FontAwesomeIcon icon={c.file ? getFileIcon(c.name) : ['far', 'folder']} />
+            <FontAwesomeIcon icon={c.file ? getFileIcon(c.name, { video: Boolean(c.video) }) : ['far', 'folder']} />
           )}
         </div>
         <div className="truncate">
@@ -100,9 +95,6 @@ const Downloading: FC<{ title: string }> = ({ title }) => {
 const FileListing: FC<{ query?: ParsedUrlQuery }> = ({ query }) => {
   const [imageViewerVisible, setImageViewerVisibility] = useState(false)
   const [activeImageIdx, setActiveImageIdx] = useState(0)
-  //const [selected, setSelected] = useState<{ [key: string]: boolean }>({})
-  //const [totalSelected, setTotalSelected] = useState<0 | 1 | 2>(0)
-  //const [totalGenerating, setTotalGenerating] = useState<boolean>(false)
   const [folderGenerating, setFolderGenerating] = useState<{ [key: string]: boolean }>({})
 
   const router = useRouter()
@@ -137,10 +129,8 @@ const FileListing: FC<{ query?: ParsedUrlQuery }> = ({ query }) => {
 
   const fileIsImage = (fileName: string) => {
     const fileExtension = getExtension(fileName)
-    if (hasKey(extensions, fileExtension)) {
-      if (extensions[fileExtension] === preview.image) {
-        return true
-      }
+    if (getPreviewType(fileExtension) === preview.image) {
+      return true
     }
     return false
   }
@@ -161,12 +151,12 @@ const FileListing: FC<{ query?: ParsedUrlQuery }> = ({ query }) => {
 
     // README rendering preparations
     let renderReadme = false
-    let readmeFile = null
+    let readmeFile = {}
 
     // Expand list of API returns into flattened file data
-    const children = [].concat(...responses.map(r => r.folder.value))
+    const children = [].concat(...responses.map(r => r.folder.value)) as OdFolderObject['value']
 
-    children.forEach((c: any) => {
+    children.forEach(c => {
       if (fileIsImage(c.name)) {
         imagesInFolder.push({
           src: c['@microsoft.graph.downloadUrl'],
@@ -184,12 +174,16 @@ const FileListing: FC<{ query?: ParsedUrlQuery }> = ({ query }) => {
     })
 
     // Filtered file list helper
-    const getFiles = () => children.filter((c: any) => !c.folder && c.name !== '.password')
+    const getFiles = () => children.filter(c => !c.folder && c.name !== '.password')
 
     // Folder recursive download
     const handleFolderDownload = (path: string, id: string, name?: string) => () => {
       const files = (async function* () {
-        for await (const { meta: c, path: p, isFolder } of traverseFolder(path)) {
+        for await (const { meta: c, path: p, isFolder, error } of traverseFolder(path)) {
+          if (error) {
+            toast.error(`Failed to download folder ${p}: ${error.status} ${error.message} Skipped it to continue.`)
+            continue
+          }
           yield {
             name: c?.name,
             url: c ? c['@microsoft.graph.downloadUrl'] : undefined,
@@ -267,7 +261,7 @@ const FileListing: FC<{ query?: ParsedUrlQuery }> = ({ query }) => {
             />
           )}
 
-          {children.map((c: any) => (
+          {children.map(c => (
             <div className="hover:bg-gray-100 dark:hover:bg-gray-850 grid grid-cols-12" key={c.id}>
               <div
                 className="col-span-11"
@@ -395,19 +389,26 @@ const FileListing: FC<{ query?: ParsedUrlQuery }> = ({ query }) => {
   }
 
   if ('file' in responses[0] && responses.length === 1) {
-    const { file } = responses[0]
+    const file = responses[0].file as OdFileObject
     const downloadUrl = file['@microsoft.graph.downloadUrl']
     const fileName = file.name
     const fileExtension = fileName.slice(((fileName.lastIndexOf('.') - 1) >>> 0) + 2).toLowerCase()
 
-    if (hasKey(extensions, fileExtension)) {
-      switch (extensions[fileExtension]) {
+    const previewType = getPreviewType(fileExtension, { video: Boolean(file.video) })
+    if (previewType) {
+      switch (previewType) {
         case preview.image:
           return (
             <>
               <PreviewContainer>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img className="mx-auto" src={downloadUrl} alt={fileName} />
+                <img
+                  className="mx-auto"
+                  src={downloadUrl}
+                  alt={fileName}
+                  width={file.image?.width}
+                  height={file.image?.height}
+                />
               </PreviewContainer>
               <DownloadBtnContainer>
                 <DownloadButtonGroup downloadUrl={file['@microsoft.graph.downloadUrl']} />
@@ -418,9 +419,6 @@ const FileListing: FC<{ query?: ParsedUrlQuery }> = ({ query }) => {
         case preview.text:
           return <TextPreview file={file} />
 
-        //case preview.code:
-        //  return <CodePreview file={file} />
-
         case preview.markdown:
           return <MarkdownPreview file={file} path={path} />
 
@@ -429,15 +427,6 @@ const FileListing: FC<{ query?: ParsedUrlQuery }> = ({ query }) => {
 
         case preview.audio:
           return <AudioPreview file={file} />
-
-        //case preview.pdf:
-        //  return <PDFPreview file={file} />
-
-        //case preview.office:
-        //  return <OfficePreview file={file} />
-
-        //case preview.epub:
-        //  return <EPUBPreview file={file} />
 
         case preview.url:
           return <URLPreview file={file} />
