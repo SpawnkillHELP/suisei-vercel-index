@@ -4,7 +4,7 @@
  * @param size File or folder size, in raw bits
  * @returns Human readable form of the file or folder size
  */
- export const humanFileSize = (size: number) => {
+export const humanFileSize = (size: number) => {
   if (size < 1024) return size + ' B'
   const i = Math.floor(Math.log(size) / Math.log(1024))
   const num = size / Math.pow(1024, i)
