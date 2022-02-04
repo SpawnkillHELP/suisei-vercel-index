@@ -9,12 +9,12 @@ import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Dialog, Transition } from '@headlessui/react'
 
-import { OdDriveItem, OdSearchResult } from '../types'
+import type { OdDriveItem, OdSearchResult } from '../types'
 import { LoadingIcon } from './Loading'
 
 import { getFileIcon } from '../utils/getFileIcon'
-import siteConfig from '../config/site.json'
 import { fetcher } from '../utils/fetchWithSWR'
+import siteConfig from '../config/site.config'
 
 /**
  * Extract the searched item's path in field 'parentReference' and convert it to the
@@ -24,7 +24,15 @@ import { fetcher } from '../utils/fetchWithSWR'
  * @returns The absolute path of the driveItem in the search result
  */
 function mapAbsolutePath(path: string): string {
-  return path.split(siteConfig.baseDirectory === '/' ? 'root:' : siteConfig.baseDirectory)[1]
+  // path is in the format of '/drive/root:/path/to/file', if baseDirectory is '/' then we split on 'root:',
+  // otherwise we split on the user defined 'baseDirectory'
+  const absolutePath = path.split(siteConfig.baseDirectory === '/' ? 'root:' : siteConfig.baseDirectory)[1]
+  // path returned by the API may contain #, by doing a decodeURIComponent and then encodeURIComponent we can
+  // replace URL sensitive characters such as the # with %23
+  return absolutePath
+    .split('/')
+    .map(p => encodeURIComponent(decodeURIComponent(p)))
+    .join('/')
 }
 
 /**
@@ -134,7 +142,7 @@ function SearchResultItem({ result }: { result: OdSearchResult[number] }) {
     return (
       <SearchResultItemTemplate
         driveItem={result}
-        driveItemPath={driveItemPath}
+        driveItemPath={result.path}
         itemDescription={driveItemPath}
         disabled={false}
       />
