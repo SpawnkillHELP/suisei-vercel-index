@@ -40,7 +40,13 @@ const EPUBPreview: FC<{ file: OdFileObject }> = ({ file }) => {
         style={{ maxHeight: '90vh' }}
       >
         <div className="no-scrollbar w-full flex-1 overflow-scroll" ref={epubContainer} style={{ minHeight: '70vh' }}>
-          <div style={{ position: 'absolute', width: epubContainerWidth, height: '70vh' }}>
+          <div
+            style={{
+              position: 'absolute',
+              width: epubContainerWidth,
+              height: '70vh',
+            }}
+          >
             <ReactReader
               url={file['@microsoft.graph.downloadUrl']}
               getRendition={rendition => fixEpub(rendition)}
