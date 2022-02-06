@@ -25,11 +25,11 @@ import FourOhFour from './FourOhFour'
 import Auth from './Auth'
 import TextPreview from './previews/TextPreview'
 import MarkdownPreview from './previews/MarkdownPreview'
-import CodePreview from './previews/CodePreview'
-import OfficePreview from './previews/OfficePreview'
+//import CodePreview from './previews/CodePreview'
+//import OfficePreview from './previews/OfficePreview'
 import AudioPreview from './previews/AudioPreview'
 import VideoPreview from './previews/VideoPreview'
-import PDFPreview from './previews/PDFPreview'
+//import PDFPreview from './previews/PDFPreview'
 import URLPreview from './previews/URLPreview'
 import ImagePreview from './previews/ImagePreview'
 import DefaultPreview from './previews/DefaultPreview'
@@ -40,9 +40,9 @@ import FolderListLayout from './FolderListLayout'
 import FolderGridLayout from './FolderGridLayout'
 
 // Disabling SSR for some previews
-const EPUBPreview = dynamic(() => import('./previews/EPUBPreview'), {
-  ssr: false,
-})
+//const EPUBPreview = dynamic(() => import('./previews/EPUBPreview'), {
+//  ssr: false,
+//})
 
 /**
  * Convert url query into path string
@@ -349,7 +349,7 @@ const FileListing: FC<{ query?: ParsedUrlQuery }> = ({ query }) => {
 
   if ('file' in responses[0] && responses.length === 1) {
     const file = responses[0].file as OdFileObject
-    const downloadUrl = file['@microsoft.graph.downloadUrl']
+    //const downloadUrl = file['@microsoft.graph.downloadUrl']
     const fileName = file.name
     const fileExtension = fileName.slice(((fileName.lastIndexOf('.') - 1) >>> 0) + 2).toLowerCase()
 
@@ -363,8 +363,8 @@ const FileListing: FC<{ query?: ParsedUrlQuery }> = ({ query }) => {
         case preview.text:
           return <TextPreview file={file} />
 
-        case preview.code:
-          return <CodePreview file={file} />
+        //case preview.code:
+        //  return <CodePreview file={file} />
 
         case preview.markdown:
           return <MarkdownPreview file={file} path={path} />
@@ -375,14 +375,14 @@ const FileListing: FC<{ query?: ParsedUrlQuery }> = ({ query }) => {
         case preview.audio:
           return <AudioPreview file={file} />
 
-        case preview.pdf:
-          return <PDFPreview file={file} />
+        //case preview.pdf:
+        //  return <PDFPreview file={file} />
 
-        case preview.office:
-          return <OfficePreview file={file} />
+        //case preview.office:
+        //  return <OfficePreview file={file} />
 
-        case preview.epub:
-          return <EPUBPreview file={file} />
+        //case preview.epub:
+        //  return <EPUBPreview file={file} />
 
         case preview.url:
           return <URLPreview file={file} />
